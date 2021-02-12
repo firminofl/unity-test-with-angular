@@ -1,0 +1,61 @@
+<mat-toolbar>
+    <h2><b>HERO</b></h2>
+
+    <span class="example-spacer"></span>
+    
+    <mat-icon #tooltip="matTooltip"
+    matTooltip="Ir para página inicial"
+    matTooltipPosition="below"
+    aria-tooltip="Ir para página inicial">home</mat-icon>
+
+    <span style="margin-left: 10px;"></span>
+
+    <mat-icon mat-raised-button color="primary"
+      matBadge="8" 
+      matBadgePosition="before" 
+      matBadgeColor="accent" 
+      #tooltip="matTooltip"
+      matTooltip="Notificações"
+      matTooltipPosition="below"
+      aria-tooltip="Notificações">notifications</mat-icon>
+
+    <span style="margin-left: 10px;"></span>
+
+    <mat-icon #tooltip="matTooltip"
+    matTooltip="Sair da aplicação"
+    matTooltipPosition="below"
+    aria-tooltip="Sair da aplicação">exit_to_app</mat-icon>
+</mat-toolbar>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<mat-card *ngIf="!isLoading">
+    <mat-card-title>Título do card</mat-card-title>
+    
+    <form [formGroup]="form" (ngSubmit)="searchName()">
+        <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input 
+            matInput
+            type="text"
+            placeholder="Entre com seu nome" 
+            formControlName="nome">
+            <mat-hint>Hint de auxílio</mat-hint>
+        </mat-form-field>
+
+        <button type="submit" mat-mini-fab color="primary" aria-label="Search name">
+            <mat-icon>search</mat-icon>
+          </button>
+    </form>
+
+    <mat-card-content *ngIf="isNameValid">
+        <h1>{{ titleOfSection }}</h1>
+        <ul *ngFor="let user of users">
+            <li><a #tooltip="matTooltip"
+                matTooltip="Detalhes"
+                matTooltipPosition="below"
+                aria-tooltip="Detalhes"
+                (click)="details(user)">{{ user.name }}</a></li>
+        </ul>
+    </mat-card-content>
+</mat-card>
