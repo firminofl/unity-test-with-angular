@@ -33,37 +33,39 @@ describe('HeroService', () => {
     expect(service).toBeTruthy();
   });
 
-  it("#getUser should get the list of users with success", () => {
-    httpServiceMock.get.and.returnValue(
-      of(mockHeroListUserResponseDto)
-    )
-
-    service.getUser().subscribe({
-      next: (response: IHeroListUserResponseDto[]) => {
-        expect(response).toEqual(mockHeroListUserResponseDto);
-        expect(service.getUser).toHaveBeenCalled();
-      },
-      error: (error: Error) => {
-        console.log(error);
-      }
-    })
-  });
-
-  it("#getUser should get the list of users with fail", () => {
-    httpServiceMock.get.and.returnValue(
-      throwError({
-        message: 'Fake error'
+  describe("#getUsers", () => {
+    it("#getUser should get the list of users with success", () => {
+      httpServiceMock.get.and.returnValue(
+        of(mockHeroListUserResponseDto)
+      )
+  
+      service.getUser().subscribe({
+        next: (response: IHeroListUserResponseDto[]) => {
+          expect(response).toEqual(mockHeroListUserResponseDto);
+          expect(service.getUser).toHaveBeenCalled();
+        },
+        error: (error: Error) => {
+          console.log(error);
+        }
       })
-    )
-
-    service.getUser().subscribe({
-      next: (response: IHeroListUserResponseDto[]) => {
-        console.log(response);
-      },
-      error: (error: Error) => {
-        console.log(error);
-        expect(error.message).toEqual('Fake error');
-      }
-    })
+    });
+  
+    it("#getUser should get the list of users with fail", () => {
+      httpServiceMock.get.and.returnValue(
+        throwError({
+          message: 'Fake error'
+        })
+      )
+  
+      service.getUser().subscribe({
+        next: (response: IHeroListUserResponseDto[]) => {
+          console.log(response);
+        },
+        error: (error: Error) => {
+          console.log(error);
+          expect(error.message).toEqual('Fake error');
+        }
+      })
+    });
   });
 });
