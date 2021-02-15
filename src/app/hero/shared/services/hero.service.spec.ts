@@ -6,6 +6,8 @@ import { of, throwError } from 'rxjs'
 import { HeroService } from './hero.service';
 import { mockHeroListUserResponseDto } from '../../mocks/hero-list-users.mock';
 import { IHeroListUserResponseDto } from '../../dtos/hero-list-users.dto';
+import { mockHeroListSearchName } from '../../mocks/hero-list-search.mock';
+import { IHeroListSearchName } from '../../dtos/hero-list-search-name.dto';
 
 describe('HeroService', () => {
   let service: HeroService;
@@ -68,4 +70,40 @@ describe('HeroService', () => {
       })
     });
   });
+
+  describe("#searchName", () => {
+    it("#searchName should search name with success", () => {
+      httpServiceMock.post.and.returnValue(
+        of(mockHeroListSearchName)
+      )
+  
+      service.searchName('teste').subscribe({
+        next: (response: IHeroListSearchName[]) => {
+          expect(response).toEqual(mockHeroListSearchName);
+          expect(service.getUser).toHaveBeenCalled();
+        },
+        error: (error: Error) => {
+          console.log(error);
+        }
+      })
+    });
+
+    it("#searchName should search name with success", () => {
+      httpServiceMock.post.and.returnValue(
+        throwError({
+          message: 'Fake error'
+        })
+      )
+  
+      service.searchName('teste').subscribe({
+        next: (response: IHeroListSearchName[]) => {
+          expect(response).toEqual(mockHeroListSearchName);
+          expect(service.getUser).toHaveBeenCalled();
+        },
+        error: (error: Error) => {
+          expect(error.message).toEqual('Fake error');
+        }
+      })
+    });
+  })
 });

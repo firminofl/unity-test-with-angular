@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { IHeroListSearchName } from '../../dtos/hero-list-search-name.dto';
 import { IHeroListUserResponseDto } from '../../dtos/hero-list-users.dto';
 
 @Injectable({
@@ -19,7 +20,7 @@ export class HeroService {
     return this.httpService.get<IHeroListUserResponseDto[]>(url, { headers })
   }
 
-  searchName(name: string): Observable<any> {
+  searchName(name: string): Observable<IHeroListSearchName[]> {
     const url = 'https://jsonplaceholder.typicode.com/posts';
     
     const headers = {
@@ -30,6 +31,6 @@ export class HeroService {
       name
     }
 
-    return this.httpService.post<any>(url, body, { headers })
+    return this.httpService.post<IHeroListSearchName[]>(url, body, { headers })
   }
 }
