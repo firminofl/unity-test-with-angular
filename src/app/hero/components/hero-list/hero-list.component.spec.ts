@@ -18,17 +18,23 @@ describe('HeroListComponent', () => {
   let component: HeroListComponent;
   let fixture: ComponentFixture<HeroListComponent>;
 
+  // Tudo que está abaixo é conforme a injeção de dependências no construtor do componente.
+  // Criando um Spy para a navegaçao
   let mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
+
+  // Tipando as injeções de dependências e já criando um Spy deles
   let mockHeroService: jasmine.SpyObj<HeroService>;
   let mockHeroStorageService: jasmine.SpyObj<HeroStorageService>;
   let mockHeroHelperService: jasmine.SpyObj<HeroHelperService>;
 
+  // Constante para auxiliar na hora do teste.
   const mockUser: IHeroListUserResponseDto = mockHeroListUserResponseDto[0];
 
   beforeEach(async () => {
     // Criando os Spys para os métodos que utilizamos no componente.
+    // Aqui definimos o nome da classe e o array de métodos que é utilizado no componente.
     mockHeroService = jasmine.createSpyObj('HeroService', ['getUser', 'searchName']);
     mockHeroStorageService = jasmine.createSpyObj('HeroStorageService', ['setUser']);
     mockHeroHelperService = jasmine.createSpyObj('HeroHelperService', ['initializeForm'])
@@ -38,6 +44,7 @@ describe('HeroListComponent', () => {
       of(mockHeroListUserResponseDto)
     );
     
+    // Instanciando o FormBuilder, já que ele é usado no construtor
     mockHeroHelperService.initializeForm.and.returnValue(
       new FormBuilder().group({
         nome: ['']
@@ -46,6 +53,9 @@ describe('HeroListComponent', () => {
 
     mockHeroStorageService.setUser.withArgs(mockUser);
     
+    // Quando trabalhamos com formulários é preciso importar os módulos referentes e colocá-los
+    // nos Providers também para que a injeção de depedência não quebre.
+    // CUSTOM_ELEMENTS_SCHEMA é para que no momento do teste, ele desconsidere o comportamento dos elementos filhos
     await TestBed.configureTestingModule({
       declarations: [ HeroListComponent ],
       imports: [
