@@ -44,7 +44,6 @@ describe('HeroService', () => {
       service.getUser().subscribe({
         next: (response: IHeroListUserResponseDto[]) => {
           expect(response).toEqual(mockHeroListUserResponseDto);
-          expect(service.getUser).toHaveBeenCalled();
         },
         error: (error: Error) => {
           console.log(error);
@@ -80,7 +79,6 @@ describe('HeroService', () => {
       service.searchName('teste').subscribe({
         next: (response: IHeroListSearchName[]) => {
           expect(response).toEqual(mockHeroListSearchName);
-          expect(service.getUser).toHaveBeenCalled();
         },
         error: (error: Error) => {
           console.log(error);
@@ -98,7 +96,6 @@ describe('HeroService', () => {
       service.searchName('teste').subscribe({
         next: (response: IHeroListSearchName[]) => {
           expect(response).toEqual(mockHeroListSearchName);
-          expect(service.getUser).toHaveBeenCalled();
         },
         error: (error: Error) => {
           expect(error.message).toEqual('Fake error');
